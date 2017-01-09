@@ -1,0 +1,75 @@
+---
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: Sudoku API
+  
+definitions:
+  puzzle:
+    type: object
+    title: Puzzle
+    properties:
+      puzzleId:
+        type: string
+        description: identifier of the puzzle
+      grid:
+        type: array
+        description: Array of square that form the puzzle grid
+        items:
+          $ref: '#/definitions/square'
+  square:
+    type: object
+    title: Square
+    properties:
+      positionX:
+        type: string
+        description: Square position on x axis
+      positionY:
+        type: string
+        description: Square position on y axis
+      sollution:
+        type: integer
+        description: provided sollution
+        
+paths:
+  /puzzles:
+    get:
+      responses:
+        200:
+          description: A list of puzzles
+          schema:
+            title: ArrayOfPuzzles
+            type: array
+            items:
+              $ref: '#/definitions/puzzle'
+              
+  /puzzles/{puzzleId}:
+    get:
+      parameters:
+        - name: puzzleId
+          type: string
+          in: path
+          required: true
+      responses:
+        200:
+          description: A specific puzzle
+          schema:
+            $ref: '#/definitions/puzzle'
+              
+  /puzzles/{puzzleId}/sollution:
+    post:
+      parameters:
+        - name: puzzleId
+          type: string
+          in: path
+          required: true
+        - name: solution
+          in: body
+          schema:
+            $ref: '/definitions/puzzle'
+      responses:
+        201:
+          description: Sollution is submitted and correct
+        400:
+          description: A game rule was not respected. Either sollution is not valid or not complete.
+          
