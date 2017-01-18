@@ -42,7 +42,6 @@ class Verification
                 );
             $verificationMatrix[self::SUB_GRIDS][$subGridId][] = $square->getValue();
         }
-
         $cmpSum = 0;
         $setSize = pow($puzzle->getSize(), 2);
         for ($i = 1, $iMax = $setSize; $i <= $iMax; $i++) {

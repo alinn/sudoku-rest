@@ -10,7 +10,6 @@ namespace Tests\PuzzleBundle\Service;
 
 
 use PuzzleBundle\Model\Puzzle;
-use PuzzleBundle\Model\Square;
 use PuzzleBundle\Service\Verification;
 
 /**
@@ -19,6 +18,7 @@ use PuzzleBundle\Service\Verification;
  */
 class VerificationTest extends \PHPUnit_Framework_TestCase
 {
+    use SudokuReader;
 
     /**
      * @dataProvider inputVerify
@@ -99,17 +99,27 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
                 ],
                 'size' => 3,
                 'correct' => false,
+            ],
+            [
+                'grid'    => [
+                    [3,5,2,8,6,7,1,9,4],
+                    [8,4,6,1,2,9,7,3,5],
+                    [1,9,7,3,5,4,8,6,2],
+                    [7,6,4,5,3,2,9,8,1],
+                    [2,3,8,7,9,1,5,4,6],
+                    [9,1,5,6,4,8,2,7,3],
+                    [4,7,9,2,1,6,3,5,8],
+                    [5,8,1,4,7,3,6,2,9],
+                    [6,2,3,9,8,5,4,1,7],
+                ],
+                'size' => 3,
+                'correct' => true,
             ]
         ];
         $fixtures = [];
         foreach ($puzzles as $puzzle) {
-            $squares = [];
-            foreach ($puzzle['grid'] as $rowCount => $row) {
-                foreach ($row as $colCount => $value) {
-                    $squares[] = new Square($rowCount + 1, $colCount + 1, $value);
-                }
-            }
-            $fixtures[] = [new Puzzle($squares, $puzzle['size']), $puzzle['correct']];
+
+            $fixtures[] = [$this->readFromMatrix($puzzle['grid'], $puzzle['size'], '123'), $puzzle['correct']];
 
         }
 

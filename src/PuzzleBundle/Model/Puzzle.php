@@ -19,16 +19,31 @@ class Puzzle
      * @var int
      */
     private $size;
+    /**
+     * @var string
+     */
+    private $puzzleId;
+
 
     /**
      * Puzzle constructor.
-     * @param array $squares
-     * @param int   $size
+     * @param string $puzzleId
+     * @param array  $squares
+     * @param int    $size
      */
-    public function __construct(array $squares, int $size)
+    public function __construct(string $puzzleId = null, array $squares, int $size)
     {
         $this->squares = $squares;
         $this->size = $size;
+        $this->puzzleId = $puzzleId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPuzzleId()
+    {
+        return $this->puzzleId;
     }
 
 
