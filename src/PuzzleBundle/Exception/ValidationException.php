@@ -8,7 +8,10 @@
 
 namespace PuzzleBundle\Exception;
 
-
+/**
+ * Class ValidationException
+ * @package PuzzleBundle\Exception
+ */
 class ValidationException extends \InvalidArgumentException
 {
 

@@ -33,6 +33,10 @@ class ArrayStorage implements Persistence
         ]
     ];
 
+    /**
+     * @param string $id
+     * @return Puzzle
+     */
     public function findOne(string $id):Puzzle
     {
         if (!array_key_exists($id, $this->storage)) {
@@ -43,6 +47,11 @@ class ArrayStorage implements Persistence
 
     }
 
+    /**
+     * @param int $skip
+     * @param int $count
+     * @return PuzzleCollection
+     */
     public function find(int $skip, int $count):PuzzleCollection
     {
         $puzzles = [];

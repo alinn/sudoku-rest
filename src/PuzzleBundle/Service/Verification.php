@@ -71,7 +71,7 @@ class Verification
      * @param  int   $cmpSum
      * @throws VerificationException
      */
-    private function verifySet(int $setSize, array $set, string $setId, int $cmpSum):void
+    private function verifySet(int $setSize, array $set, string $setId, int $cmpSum)
     {
         if ($setSize !== count($set)) {
             throw new VerificationException('Unexpected size ' . count($set), $setId);

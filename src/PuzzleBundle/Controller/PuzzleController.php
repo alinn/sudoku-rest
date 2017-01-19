@@ -5,7 +5,6 @@ namespace PuzzleBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as REST;
 use FOS\RestBundle\Controller\FOSRestController;
 use PuzzleBundle\Model\Puzzle;
-use PuzzleBundle\Model\Square;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -105,7 +104,6 @@ class PuzzleController extends FOSRestController
     public function postPuzzleSolution(Request $request)
     {
 
-        $paramFetcher = $this->get('fos_rest.request.param_fetcher');
         /** @var Puzzle $data */
         $data = $this->get('jms_serializer')->deserialize($request->getContent(), Puzzle::class, 'json');
 
