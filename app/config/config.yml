@@ -92,5 +92,7 @@ fos_rest:
         enabled: true
         codes:
           'PuzzleBundle\Exception\EntityNotFoundException': 404
+          'PuzzleBundle\Exception\ValidationException': 422
         messages:
           'PuzzleBundle\Exception\EntityNotFoundException': true
+          'PuzzleBundle\Exception\ValidationException': true

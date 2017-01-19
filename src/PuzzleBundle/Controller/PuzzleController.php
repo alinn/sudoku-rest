@@ -2,13 +2,13 @@
 
 namespace PuzzleBundle\Controller;
 
+use FOS\RestBundle\Controller\Annotations as REST;
 use FOS\RestBundle\Controller\FOSRestController;
-use PuzzleBundle\Exception\EntityNotFoundException;
+use PuzzleBundle\Model\Puzzle;
+use PuzzleBundle\Model\Square;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class PuzzleController
@@ -83,11 +83,7 @@ class PuzzleController extends FOSRestController
      */
     public function getPuzzle($puzzleId)
     {
-        try {
-            $puzzle = $this->get('puzzle.storage')->findOne($puzzleId);
-        } catch (EntityNotFoundException $e) {
-            throw new NotFoundHttpException($e->getMessage());
-        }
+        $puzzle = $this->get('puzzle.storage')->findOne($puzzleId);
 
         return $this->handleView(
             $this->view(
@@ -98,8 +94,27 @@ class PuzzleController extends FOSRestController
         );
     }
 
-    public function postSolution($puzzleId)
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/puzzles/{puzzleId}/solution")
+     * @REST\RequestParam(name="squares", nullable=false)
+     * @REST\RequestParam(name="size", nullable=false)
+     * @Method("POST")
+     */
+    public function postPuzzleSolution(Request $request)
     {
 
+        $paramFetcher = $this->get('fos_rest.request.param_fetcher');
+        /** @var Puzzle $data */
+        $data = $this->get('jms_serializer')->deserialize($request->getContent(), Puzzle::class, 'json');
+
+        $this->get('puzzle.validation')->validate($data);
+        $result = $this->get('puzzle.verification')->verify($data);
+        if (true === $result) {
+            return $this->handleView($this->view(null, 201));
+        }
+
+        return $this->handleView($this->view(['message' => 'Solution is not correct or incomplete'], 422));
     }
 }

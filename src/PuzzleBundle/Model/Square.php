@@ -9,31 +9,37 @@
 namespace PuzzleBundle\Model;
 
 
+use JMS\Serializer\Annotation as Serializer;
+
 class Square
 {
     /**
      * @var int
+     * @Serializer\Type("integer")
      */
     private $positionX;
     /**
      * @var int
+     * @Serializer\Type("integer")
      */
     private $positionY;
     /**
      * @var int
+     * @Serializer\Type("integer")
      */
     private $value;
     /**
      * @var bool
+     * @Serializer\Type("boolean")
      */
     private $readonly;
 
     /**
      * Square constructor.
-     * @param int    $positionX
-     * @param int $positionY
-     * @param int    $value
-     * @param bool   $readonly
+     * @param int  $positionX
+     * @param int  $positionY
+     * @param int  $value
+     * @param bool $readonly
      */
     public function __construct(int $positionX, int $positionY, $value, $readonly = false)
     {
