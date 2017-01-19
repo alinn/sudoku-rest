@@ -38,13 +38,9 @@ class ArrayStorage implements Persistence
         if (!array_key_exists($id, $this->storage)) {
             throw new EntityNotFoundException($id);
         }
-        $squares = [];
-        foreach ($this->storage[$id]['grid'] as $row => $gridLine) {
-            foreach ($gridLine as $col => $value) {
-                $squares[]= new Square($col + 1, $row+1, $value, true);
-            }
-        }
-        return new Puzzle($id, $squares, $this->storage[$id]['size']);
+
+        return $this->buildPuzzle($id, $this->storage[$id]);
+
     }
 
     public function find(int $skip, int $count):PuzzleCollection
@@ -52,18 +48,31 @@ class ArrayStorage implements Persistence
         $puzzles = [];
         $results = array_slice($this->storage, $skip, $count);
         foreach ($results as $id => $result) {
-            $squares = [];
-            foreach ($result['grid'] as $row => $gridLine) {
-                foreach ($gridLine as $col => $value) {
-                    if (null === $value) {
-                        continue;
-                    }
-                    $squares[]= new Square($col + 1, $row+1, $value, true);
-                }
-            }
-            $puzzles[] = new Puzzle($id, $squares, $result['size']);
+            $puzzles[] = $this->buildPuzzle($id, $result);
         }
+
         return new PuzzleCollection($puzzles, count($puzzles), count($this->storage), $skip);
+    }
+
+    /**
+     * @param string $id
+     * @param array  $result
+     * @return Puzzle
+     */
+    private function buildPuzzle(string $id, array $result):Puzzle
+    {
+        $squares = [];
+
+        foreach ($result['grid'] as $row => $gridLine) {
+            foreach ($gridLine as $col => $value) {
+                if (null === $value) {
+                    continue;
+                }
+                $squares[] = new Square($col + 1, $row + 1, $value, true);
+            }
+        }
+
+        return new Puzzle($id, $squares, $result['size']);
     }
 
 }

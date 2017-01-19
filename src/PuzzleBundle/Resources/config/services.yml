@@ -1,0 +1,10 @@
+services:
+  puzzle.storage:
+    class: PuzzleBundle\Service\ArrayStorage
+  puzzle.validation:
+    class: PuzzleBundle\Service\Validation
+    arguments:
+      - "@puzzle.storage"
+
+  puzzle.verification:
+    class: PuzzleBundle\Service\Verification

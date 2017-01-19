@@ -12,6 +12,9 @@ definitions:
       puzzleId:
         type: string
         description: identifier of the puzzle
+      size:
+        type: integer
+        description: Size of the puzzle
       grid:
         type: array
         description: Array of square that form the puzzle grid

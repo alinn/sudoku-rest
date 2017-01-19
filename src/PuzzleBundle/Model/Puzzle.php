@@ -8,19 +8,34 @@
 
 namespace PuzzleBundle\Model;
 
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
+
+/**
+ * @Hateoas\Relation(
+ *     name="self",
+ *     href=@Hateoas\Route(name="puzzle_puzzle_getpuzzle", parameters={"puzzleId"="expr(object.getPuzzleId())"})
+ * )
+ *
+ * Class Puzzle
+ * @package PuzzleBundle\Model
+ */
 class Puzzle
 {
     /**
      * @var Square[]
+     * @Serializer\Type("array<PuzzleBundle\Model\Square>")
      */
     private $squares = [];
     /**
      * @var int
+     * @Serializer\Type("integer")
      */
     private $size;
     /**
      * @var string
+     * @Serializer\Type("string")
      */
     private $puzzleId;
 

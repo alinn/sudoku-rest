@@ -11,6 +11,10 @@ namespace PuzzleBundle\Exception;
 
 use Exception;
 
+/**
+ * Class EntityNotFoundException
+ * @package PuzzleBundle\Exception
+ */
 class EntityNotFoundException extends \RuntimeException
 {
     /**
